@@ -30,7 +30,14 @@ try:
 
     GAME_BOARD = Board(STDSCR, [0, 0], [20, 20])
     SCORE_BOARD = ScoreBoard(GAME_BOARD.status, 5, 25)
-
+    
+    INPUT_HANDLER = {
+        KEYS.lshift: GAME_BOARD.lshift_block,
+        KEYS.rshift: GAME_BOARD.rshift_block,
+        KEYS.land: GAME_BOARD.land_block,
+        KEYS.rotate: GAME_BOARD.rotate_block
+    }
+    
     GAME_QUIT = False
     LAST_GAME_STEP = time()
     while not GAME_QUIT and not GAME_BOARD.game_over():
@@ -42,14 +49,8 @@ try:
         USR_INPUT = STDSCR.getch()
         if USR_INPUT == KEYS.quit:
             GAME_QUIT = True
-        elif USR_INPUT == KEYS.lshift:
-            GAME_BOARD.lshift_block()
-        elif USR_INPUT == KEYS.rshift:
-            GAME_BOARD.rshift_block()
-        elif USR_INPUT == KEYS.land:
-            GAME_BOARD.land_block()
-        elif USR_INPUT == KEYS.rotate:
-            GAME_BOARD.rotate_block()
+        elif USR_INPUT in INPUT_HANDLER:
+            INPUT_HANDLER[USR_INPUT]()
 
         GAME_BOARD.draw()
         SCORE_BOARD.draw()
